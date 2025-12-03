@@ -1,5 +1,6 @@
 package com.example.postsapp.presentation.comments
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,6 +32,7 @@ class CommentsViewModel @Inject constructor(
     val state: StateFlow<CommentsState> = _state.asStateFlow()
 
     init {
+        Log.d("PostsApp", "CommentsViewModel: init for postId=$postId")
         loadPost()
         loadComments()
     }
@@ -45,6 +47,7 @@ class CommentsViewModel @Inject constructor(
     private fun loadComments() {
         getCommentsUseCase(postId)
             .onEach { comments ->
+                Log.d("PostsApp", "CommentsViewModel: Loaded ${comments.size} comments")
                 _state.value = _state.value.copy(
                     comments = comments,
                     isLoading = false

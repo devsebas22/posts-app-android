@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.postapp"
+    namespace = "com.example.postsapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.postapp"
+        applicationId = "com.example.postsapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -65,7 +65,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.navigation:navigation-compose:2.7.5")
-
+    implementation("androidx.compose.material:material-icons-extended")
     // Room
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")

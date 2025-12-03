@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -15,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.postsapp.domain.model.Comment
+import com.example.postsapp.domain.model.Post
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.compose.material3.Divider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +35,7 @@ fun CommentsScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Volver"
                         )
                     }
@@ -47,8 +49,11 @@ fun CommentsScreen(
                 .padding(paddingValues)
         ) {
             state.post?.let { post ->
-                PostHeader(post = post)
-                Divider()
+                PostHeaderCard(post = post)
+                Divider(
+                    modifier = Modifier.fillMaxWidth(),
+                    thickness = 1.dp
+                )
             }
 
             when {
@@ -73,27 +78,33 @@ fun CommentsScreen(
                         if (state.comments.isEmpty()) {
                             item {
                                 Box(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(32.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
-                                        "No hay comentarios. ¡Sé el primero en comentar!",
-                                        style = MaterialTheme.typography.bodyMedium
+                                        text = "No hay comentarios. ¡Sé el primero en comentar!",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                             }
                         } else {
                             items(state.comments) { comment ->
-                                CommentItem(comment = comment)
+                                CommentCard(comment = comment)
                             }
                         }
                     }
                 }
             }
 
-            Divider()
+            Divider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp
+            )
 
-            CommentInput(
+            CommentInputSection(
                 name = state.commentName,
                 body = state.commentBody,
                 onNameChange = { viewModel.onCommentNameChange(it) },
@@ -118,7 +129,7 @@ fun CommentsScreen(
 }
 
 @Composable
-fun PostHeader(post: com.example.postsapp.domain.model.Post) {
+fun PostHeaderCard(post: Post) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -148,7 +159,7 @@ fun PostHeader(post: com.example.postsapp.domain.model.Post) {
 }
 
 @Composable
-fun CommentItem(comment: Comment) {
+fun CommentCard(comment: Comment) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -183,7 +194,7 @@ fun CommentItem(comment: Comment) {
 }
 
 @Composable
-fun CommentInput(
+fun CommentInputSection(
     name: String,
     body: String,
     onNameChange: (String) -> Unit,

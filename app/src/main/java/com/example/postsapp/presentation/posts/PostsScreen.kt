@@ -46,12 +46,20 @@ fun PostsScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            SearchBar(
-                query = state.searchQuery,
-                onQueryChange = { viewModel.onSearchQueryChange(it) },
+            OutlinedTextField(
+                value = state.searchQuery,
+                onValueChange = { viewModel.onSearchQueryChange(it) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                placeholder = { Text("Buscar por título o ID...") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Buscar"
+                    )
+                },
+                singleLine = true
             )
 
             if (state.isSyncing) {
@@ -94,28 +102,6 @@ fun PostsScreen(
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    OutlinedTextField(
-        value = query,
-        onValueChange = onQueryChange,
-        modifier = modifier,
-        placeholder = { Text("Buscar por título o ID...") },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Buscar"
-            )
-        },
-        singleLine = true
-    )
 }
 
 @Composable

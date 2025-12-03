@@ -35,11 +35,13 @@ object AppModule {
     }
 
     @Provides
+    @Singleton  // ← AGREGADO
     fun providePostDao(database: AppDatabase): PostDao {
         return database.postDao()
     }
 
     @Provides
+    @Singleton  // ← AGREGADO
     fun provideCommentDao(database: AppDatabase): CommentDao {
         return database.commentDao()
     }
